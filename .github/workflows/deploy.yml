@@ -55,7 +55,7 @@ jobs:
       - name: Copy artifacts to EC2 instance
         run: |
           ls -lha
-          rsync -az docker-compose.yml .env root@54.172.84.0:/opt/my-project/
+          rsync -az -e "ssh -o StrictHostKeyChecking=no" docker-compose.yml .env root@54.172.84.0:/opt/my-project/
 
       - name: Deploy to EC2
         run: |
