@@ -27,3 +27,21 @@ jobs:
         run: |
           docker build -t harbor.exxspes.space/library/app:latest .
           docker push harbor.exxspes.space/library/app:latest
+
+  deploy:
+    runs-on: ubuntu-latest
+    needs: build
+
+    steps:
+      - name: Set up SSH agent
+        uses: webfactory/ssh-agent@v0.9.0
+        with:
+          ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
+
+      - name: Deploy to EC2
+        run: |
+          ssh -o StrictHostKeyChecking=no root@54.172.84.0 << 'EOF'
+            docker pull harbor.exxspes.space/library/app:latest
+            cd /opt/my-project
+            docker compose down && docker compose up -d
+          EOF
