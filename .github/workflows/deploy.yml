@@ -28,15 +28,34 @@ jobs:
           docker build -t harbor.exxspes.space/library/app:latest .
           docker push harbor.exxspes.space/library/app:latest
 
+      - name: Copy docker compose
+        run: mkdir build && rsync -az docker-compose.yml .env build/
+
+      - name: Upload artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: my-build
+          path: ./build
+
   deploy:
     runs-on: ubuntu-latest
     needs: build
 
     steps:
+      - name: Download artifacts
+        uses: actions/download-artifact@v4
+        with:
+          name: my-build
+
       - name: Set up SSH agent
         uses: webfactory/ssh-agent@v0.9.0
         with:
           ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
+
+      - name: Copy artifacts to EC2 instance
+        run: |
+          ls -lha
+          rsync -az docker-compose.yml .env root@54.172.84.0:/opt/my-project/
 
       - name: Deploy to EC2
         run: |
