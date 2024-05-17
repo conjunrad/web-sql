@@ -13,7 +13,7 @@ pipeline {
         }
         stage('Clone repo'){
             steps {
-                sh "git clone ${REPO_URL} ."
+                sh "git clone ${REPO_URL}"
             }
         }
         stage('Debug'){
@@ -23,6 +23,7 @@ pipeline {
         }
         stage('Start app'){
             steps {
+                sh "cd web-sql"
                 sh "docker compose up -d"
             }
         }
