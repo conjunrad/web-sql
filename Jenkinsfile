@@ -3,10 +3,6 @@ pipeline {
         label "slave-1"
     }
     
-    environment {
-        REPO_URL = "git@github.com:conjunrad/web-sql.git"
-    }
-    
     stages {
         stage('Setup known hosts'){
             steps {
@@ -31,9 +27,9 @@ pipeline {
         }
     }
     
-    post {
-        always {
-            cleanWs()
-        }
-    }
+    // post {
+    //     always {
+    //         cleanWs()
+    //     }
+    // }
 }
