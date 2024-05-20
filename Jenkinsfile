@@ -1,5 +1,7 @@
 pipeline {
-    agent any
+    agent {
+        label: "slave-1"
+    }
     
     environment {
         REPO_URL = "git@github.com:conjunrad/web-sql.git"
