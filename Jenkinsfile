@@ -26,7 +26,8 @@ pipeline {
         stage('Start app'){
             steps {
                 sh "cd web-sql"
-                sh "docker compose down && docker compose up --build -d"
+                sh "docker compose down"
+                sh "docker compose up --build -d"
             }
         }
     }
