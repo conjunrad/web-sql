@@ -15,6 +15,7 @@ pipeline {
         }
         stage('Clone repo'){
             steps {
+                sh "whoami"
                 sh "git clone ${REPO_URL}"
             }
         }
