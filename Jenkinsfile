@@ -15,8 +15,7 @@ pipeline {
         }
         stage('Clone repo'){
             steps {
-                sh "whoami"
-                sh "git clone ${REPO_URL}"
+                checkout scm
             }
         }
         stage('Debug'){
@@ -27,7 +26,7 @@ pipeline {
         stage('Start app'){
             steps {
                 sh "cd web-sql"
-                sh "docker compose up -d"
+                sh "docker compose down && docker compose up --build -d"
             }
         }
     }
